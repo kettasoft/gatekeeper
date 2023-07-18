@@ -44,6 +44,8 @@ return [
     */
     'tables' => [
 
+        'default_status' => TRUE,
+
         'roles' => 'roles',
 
         'permissions' => 'permissions',
@@ -53,5 +55,25 @@ return [
         'permission_user' => 'permission_user',
 
         'permission_role' => 'permission_role',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Gatekeeper Foreign Keys
+    |--------------------------------------------------------------------------
+    |
+    | These are the foreign keys used by Gatekeeper in the intermediate tables.
+    |
+    */
+    'foreign_keys' => [
+        /**
+         * Role foreign key on Gatekeeper's role_user and permission_role tables.
+         */
+        'role' => 'role_id',
+
+        /**
+         * Role foreign key on Gatekeeper's permission_user and permission_role tables.
+         */
+        'permission' => 'permission_id',
     ],
 ];
