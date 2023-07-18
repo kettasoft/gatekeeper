@@ -1,0 +1,23 @@
+{
+    "name": "kettasoft/gatekeeper",
+    "description": "A lightweight and powerful package for handling permissions and provisions in Laravel",
+    "type": "library",
+    "require-dev": {
+        "phpunit/phpunit": "^10",
+        "laravel/framework": "^10"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Kettasoft\\Gatekeeper\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Abdalrhman Emad Saad",
+            "email": "kettasoft@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
