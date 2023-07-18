@@ -33,4 +33,30 @@ return [
 
         'permission' => Kettasoft\Gatekeeper\Models\Permission::class,
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Gatekeeper Tables
+    |--------------------------------------------------------------------------
+    |
+    | These are the tables used by Gatekeeper to store all the authorization data.
+    |
+    */
+    'tables' => [
+
+        'roles' => 'roles',
+
+        'permissions' => 'permissions',
+
+        /**
+         * Will be used only if the branches functionality is enabled.
+         */
+        'branches' => 'branches',
+
+        'role_user' => 'role_user',
+
+        'permission_user' => 'permission_user',
+
+        'permission_role' => 'permission_role',
+    ],
 ];
