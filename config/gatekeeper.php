@@ -44,14 +44,11 @@ return [
     */
     'tables' => [
 
+        'default_status' => TRUE,
+
         'roles' => 'roles',
 
         'permissions' => 'permissions',
-
-        /**
-         * Will be used only if the branches functionality is enabled.
-         */
-        'branches' => 'branches',
 
         'role_user' => 'role_user',
 
