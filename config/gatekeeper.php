@@ -17,4 +17,20 @@ return [
     'user_models' => [
         'users' => App\Models\User::class
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Gatekeeper Models
+    |--------------------------------------------------------------------------
+    |
+    | These are the models used by Gatekeeper to define the roles, permissions and branches.
+    | If you want the Gatekeeper models to be in a different namespace or
+    | to have a different name, you can do it here.
+    |
+    */
+    'models' => [
+        'role' => Kettasoft\Gatekeeper\Models\Role::class,
+
+        'permission' => Kettasoft\Gatekeeper\Models\Permission::class,
+    ],
 ];
