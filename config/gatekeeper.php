@@ -44,8 +44,6 @@ return [
     */
     'tables' => [
 
-        'default_status' => TRUE,
-
         'roles' => 'roles',
 
         'permissions' => 'permissions',
