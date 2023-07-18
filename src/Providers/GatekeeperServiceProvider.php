@@ -3,6 +3,7 @@
 namespace Kettasoft\Gatekeeper\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Kettasoft\Gatekeeper\Commands\RunMigraitonsCommand;
 
 class GatekeeperServiceProvider extends ServiceProvider
 {
@@ -22,7 +23,7 @@ class GatekeeperServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->commands(RunMigraitonsCommand::class);
     }
 
 }
