@@ -76,4 +76,36 @@ return [
          */
         'permission' => 'permission_id',
     ],
+
+    /*
+        |--------------------------------------------------------------------------
+        | Gatekeeper cache
+        |--------------------------------------------------------------------------
+        |
+        | Manage Gatekeeper cache configurations. It uses the driver defined in the
+        | config/cache.php file.
+        |
+        */
+        'cache' => [
+            /*
+            |--------------------------------------------------------------------------
+            | Use cache in the package
+            |--------------------------------------------------------------------------
+            |
+            | Defines if Gatekeeper will use Laravel's Cache to cache the roles and permissions.
+            | NOTE: Currently the database check does not use cache.
+            |
+            */
+            'enabled' => env('GATEKEEPER_ENABLE_CACHE', env('APP_ENV') === 'production'),
+
+            /*
+            |--------------------------------------------------------------------------
+            | Time to store in cache Gatekeeper's roles and permissions.
+            |--------------------------------------------------------------------------
+            |
+            | Determines the time in SECONDS to store Goverable's roles and permissions in the cache.
+            |
+            */
+            'expiration_time' => 60 * 60,
+        ],
 ];
