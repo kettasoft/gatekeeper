@@ -46,6 +46,17 @@ trait GatekeeperCacheing
     }
 
     /**
+     * Flush the current user permissions and roles from the cache
+     *
+     * @return void
+     */
+    public function currentUserFlushCache(): void
+    {
+        Cache::forget('gatekeeper_roles_for_' . $this->userModelCacheKey() . '_' . $this->user->getKey());
+        Cache::forget('gatekeeper_permissions_for_' . $this->userModelCacheKey() . '_' . $this->user->getKey());
+    }
+
+    /**
      * Tries return key name for user_models.
      *
      * @return string|void default key user
