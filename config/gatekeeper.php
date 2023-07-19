@@ -78,6 +78,46 @@ return [
     ],
 
     /*
+    |--------------------------------------------------------------------------
+    | Checkers
+    |--------------------------------------------------------------------------
+    |
+    | Manage Gatekeeper's role and permissions checkers configurations.
+    |
+    */
+    'checkers' => [
+
+        /*
+        |--------------------------------------------------------------------------
+        | Which permissions checker to use.
+        |--------------------------------------------------------------------------
+        |
+        | Defines if you want to use the roles and permissions checker.
+        | Available:
+        | - default: Check for the roles and permissions using the method that Gatekeeper
+        |            has always used.
+        | - query: Check for the roles and permissions using direct queries to the database.
+        |           This method doesn't support cache yet.
+        | - class that extends Gatekeeper\Checkers\User\UserChecker
+        */
+        'user' => 'default',
+
+        /*
+        |--------------------------------------------------------------------------
+        | Which role checker to use.
+        |--------------------------------------------------------------------------
+        |
+        | Defines if you want to use the roles and permissions checker.
+        | Available:
+        | - default: Check for the roles and permissions using the method that Gatekeeper has always used.
+        | - query: Check for the roles and permissions using direct queries to the database.
+        |          This method doesn't support cache yet.
+        | - class that extends Gatekeeper\Checkers\Role\RoleChecker
+        */
+        'role' => 'default',
+    ],
+
+    /*
         |--------------------------------------------------------------------------
         | Gatekeeper cache
         |--------------------------------------------------------------------------
