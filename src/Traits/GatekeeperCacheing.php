@@ -26,6 +26,26 @@ trait GatekeeperCacheing
     }
 
     /**
+     * Tries to return all the cached permissions of the user
+     * and if it can't bring the permissions from the cache,
+     * it brings them back from the DB.
+     */
+    public function userCachedPermissions(): array
+    {
+        $cacheKey = 'gatekeeper_permissions_for_' . $this->userModelCacheKey() . '_' . $this->user->getKey();
+
+        $permissions = $this->user->permissions;
+
+        if (!config('gatekeeper.cache.enabled')) {
+            return $permissions;
+        }
+
+        return Cache::remember($cacheKey, config('gatekeeper.cache.expiration_time', 60), function () use ($permissions) {
+            return $permissions;
+        });
+    }
+
+    /**
      * Tries return key name for user_models.
      *
      * @return string|void default key user
