@@ -3,8 +3,8 @@
     "description": "A lightweight and powerful package for handling permissions and provisions in Laravel",
     "type": "library",
     "require-dev": {
-        "phpunit/phpunit": "^10",
-        "laravel/framework": "^10"
+        "laravel/framework": "^10",
+        "pestphp/pest": "2.x-dev"
     },
     "license": "MIT",
     "autoload": {
@@ -19,5 +19,9 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {}
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
 }
