@@ -13,7 +13,7 @@ class Permission extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        //
+        'permissions'
     ];
 
     /**
@@ -32,5 +32,13 @@ class Permission extends Model
     {
         parent::__construct($attributes);
         $this->table = config('gatekeeper.tables.permissions.table_name', 'permissions');
+    }
+
+    /**
+     * Convert the permissions from json string to array.
+     */
+    public function getPermissionsAttribute(string $permissions): array
+    {
+        return json_decode($permissions, TRUE);
     }
 }
