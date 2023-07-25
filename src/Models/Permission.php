@@ -3,6 +3,7 @@
 namespace Kettasoft\Gatekeeper\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Kettasoft\Gatekeeper\Services\ConvertPermissionArrayToJson;
 
 class Permission extends Model
 {
@@ -37,8 +38,16 @@ class Permission extends Model
     /**
      * Convert the permissions from json string to array.
      */
-    public function getPermissionsAttribute(string $permissions): array
+    public function getPermissionsAttribute($permissions)
     {
         return json_decode($permissions, TRUE);
+    }
+
+    /**
+     * Convert the permissions from array to json string on create.
+     */
+    public function setPermissionsAttribute($permissions)
+    {
+        $this->attributes['permissions'] = ConvertPermissionArrayToJson::convert($permissions);
     }
 }
