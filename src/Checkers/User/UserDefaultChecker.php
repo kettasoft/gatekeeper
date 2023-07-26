@@ -37,8 +37,10 @@ class UserDefaultChecker extends UserChecker
             return $requireAll;
         }
 
-        if (Arr::get($this->userCachedPermissions()['permissions'], $permission)) {
-            return true;
+        if (! empty($userCachedPermissions = $this->userCachedPermissions())) {
+            if (Arr::get(Arr::get($userCachedPermissions, 'permissions'), $permission)) {
+                return true;
+            }
         }
 
         return false;
