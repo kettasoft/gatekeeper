@@ -14,7 +14,8 @@ class Permission extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'permissions'
+        'permissions',
+        'status'
     ];
 
     /**
