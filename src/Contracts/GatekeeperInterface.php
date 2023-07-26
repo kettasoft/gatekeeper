@@ -13,4 +13,5 @@ interface GatekeeperInterface
      * @return self
      */
     public function givePermission(array|Model $permission): static;
+    public function removePermission(string|array $permission): static;
 }
