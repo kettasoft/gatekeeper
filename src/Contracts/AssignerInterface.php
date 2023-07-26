@@ -8,5 +8,6 @@ interface AssignerInterface
 {
     public function __construct(GatekeeperInterface $model);
 
-    public function currentUserGivePermission(string|array $permission): true;
+    public function currentUserGivePermission(string|array $permission): GatekeeperInterface;
+    public function currentUserRemovePermission(string|array $permission): GatekeeperInterface;
 }

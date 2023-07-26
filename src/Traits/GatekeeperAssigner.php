@@ -3,6 +3,7 @@
 namespace Kettasoft\Gatekeeper\Traits;
 
 use Illuminate\Database\Eloquent\Model;
+use Kettasoft\Gatekeeper\Contracts\GatekeeperInterface;
 
 trait GatekeeperAssigner
 {
@@ -12,8 +13,11 @@ trait GatekeeperAssigner
     public function givePermission(
         array|Model $permission,
     ): static {
-        $this->permissions()->create(['permissions' => json_encode($permission)]);
+        return $this->gatekeeperUserAssginer()->currentUserGivePermission($permission);
+    }
 
-        return $this;
+    public function removePermission(string|array $permission)
+    {
+        return $this->gatekeeperUserAssginer()->currentUserRemovePermission($permission);
     }
 }
