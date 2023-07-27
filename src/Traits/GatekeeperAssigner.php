@@ -16,8 +16,9 @@ trait GatekeeperAssigner
         return $this->gatekeeperUserAssginer()->currentUserGivePermission($permission);
     }
 
-    public function removePermission(string|array $permission)
-    {
+    public function removePermission(
+        string|array $permission
+    ): static {
         return $this->gatekeeperUserAssginer()->currentUserRemovePermission($permission);
     }
 }
