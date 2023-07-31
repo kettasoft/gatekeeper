@@ -31,14 +31,13 @@ class Assigner implements AssignerInterface
     public function currentUserGivePermission(string|array $permission): GatekeeperInterface
     {
         $permission = $this->setDefaultValueToPermission($permission);
-        $userCachedPermissions = collect($this->userCachedPermissions())->get('permissions');
 
-        if (is_null($userCachedPermissions)) {
+        if (!$this->user->permissions()->first()) {
             $this->user->permissions()->create(['permissions' => $permission]);
             return $this->user;
         }
 
-        $newPermissions = array_merge($userCachedPermissions, $permission);
+        $newPermissions = array_merge(Arr::get($this->userCachedPermissions(), 'permissions', []), $permission);
 
         $this->user->permissions()->update(['permissions' => $newPermissions]);
 
@@ -47,14 +46,19 @@ class Assigner implements AssignerInterface
 
     public function currentUserRemovePermission(array|string $permission): GatekeeperInterface
     {
-        if ($cachedPermissions = $this->userCachedPermissions()) {
+        $cachedPermissions = $this->userCachedPermissions();
+
+        if ($cachedPermissions) {
+
             $newPermissions = collect(Arr::get($cachedPermissions, 'permissions'))->forget($permission);
 
             if ($newPermissions->isEmpty()) {
                 $this->user->permissions()->delete();
+                return $this->user;
             }
 
             $this->user->permissions()->update(['permissions' => $newPermissions]);
+            return $this->user;
         }
 
         return $this->user;
@@ -63,8 +67,8 @@ class Assigner implements AssignerInterface
     private function setDefaultValueToPermission(array $permissions, $default = true)
     {
         $result = [];
-
         foreach($permissions as $permission) {
+            if (! is_string($permission)) return $permissions;
             $result[$permission] = $default;
         }
 
