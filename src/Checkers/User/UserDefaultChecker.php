@@ -3,11 +3,19 @@
 namespace Kettasoft\Gatekeeper\Checkers\User;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Kettasoft\Gatekeeper\Traits\GatekeeperCacheing;
 
 class UserDefaultChecker extends UserChecker
 {
     use GatekeeperCacheing;
+
+    public function getCurrentUserRoles(): array
+    {
+        $roles = collect($this->userCachedRoles());
+
+        return $roles->pluck('name')->toArray();
+    }
 
     public function currentUserHasPermission(
         string|array $permission,

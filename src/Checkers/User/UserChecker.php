@@ -19,4 +19,11 @@ abstract class UserChecker
      * @return boolean
      */
     abstract public function currentUserHasPermission(string|array $permission, bool $requireAll = false): bool;
+
+    /**
+     * Get the roles of the currently registered user as an array by name.
+     *
+     * @return array
+     */
+    abstract public function getCurrentUserRoles(): array;
 }
