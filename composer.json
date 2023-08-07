@@ -4,12 +4,18 @@
     "type": "library",
     "require-dev": {
         "laravel/framework": "^10",
-        "pestphp/pest": "2.x-dev"
+        "pestphp/pest": "2.x-dev",
+        "orchestra/testbench": "8.x-dev"
     },
     "license": "MIT",
     "autoload": {
         "psr-4": {
             "Kettasoft\\Gatekeeper\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Gatekeeper\\Tests\\": "tests/"
         }
     },
     "authors": [
