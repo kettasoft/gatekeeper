@@ -10,6 +10,7 @@ use Kettasoft\Gatekeeper\Checkers\Role\RoleQueryChecker;
 use Kettasoft\Gatekeeper\Checkers\User\UserQueryChecker;
 use Kettasoft\Gatekeeper\Checkers\Role\RoleDefaultChecker;
 use Kettasoft\Gatekeeper\Checkers\User\UserDefaultChecker;
+use Illuminate\Support\Facades\Config;
 
 class CheckersManager
 {
@@ -18,11 +19,11 @@ class CheckersManager
     }
 
     /**
-     * Return the right checker according to the configuration.
+     * Return the right checker according to the Config::geturation.
      */
     public function getUserChecker(): UserChecker
     {
-        $checker = config('gatekeeper.checkers.user', config('gatekeeper.checker', 'default'));
+        $checker = Config::get('gatekeeper.checkers.user', Config::get('gatekeeper.checker', 'default'));
 
         switch ($checker) {
             case 'default':
@@ -39,11 +40,11 @@ class CheckersManager
     }
 
     /**
-     * Return the right checker according to the configuration.
+     * Return the right checker according to the Config::geturation.
      */
     public function getRoleChecker(): RoleChecker
     {
-        $checker = config('gatekeeper.checkers.role', config('gatekeeper.checker', 'default'));
+        $checker = Config::get('gatekeeper.checkers.role', Config::get('gatekeeper.checker', 'default'));
 
         switch ($checker) {
             case 'default':

@@ -2,6 +2,7 @@
 
 namespace Kettasoft\Gatekeeper\Traits;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 trait GatekeeperUserRelations
@@ -14,9 +15,9 @@ trait GatekeeperUserRelations
     public function permissions(): MorphToMany
     {
         return $this->morphToMany(
-            config('gatekeeper.models.permission'),
+            Config::get('gatekeeper.models.permission'),
             'user',
-            config('gatekeeper.tables.permission_user')
+            Config::get('gatekeeper.tables.permission_user')
         )->as('user')->withPivot('status');
     }
 
@@ -26,9 +27,9 @@ trait GatekeeperUserRelations
     public function roles(): MorphToMany
     {
         return $this->morphToMany(
-            config('gatekeeper.models.role'),
+            Config::get('gatekeeper.models.role'),
             'user',
-            config('gatekeeper.tables.role_user'),
+            Config::get('gatekeeper.tables.role_user'),
         );
     }
 }
