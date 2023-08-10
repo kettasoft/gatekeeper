@@ -4,6 +4,7 @@ namespace Kettasoft\Gatekeeper\Traits;
 
 use UnexpectedValueException;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
 
 trait GatekeeperCacheing
 {
@@ -16,11 +17,11 @@ trait GatekeeperCacheing
     {
         $cacheKey = 'gatekeeper_roles_for_' . $this->userModelCacheKey() . '_' . $this->user->getKey();
 
-        if (!config('gatekeeper.cache.enabled')) {
+        if (!Config::get('gatekeeper.cache.enabled')) {
             return $this->user->roles()->get()->toArray();
         }
 
-        return Cache::remember($cacheKey, config('gatekeeper.cache.expiration_time', 60), function () {
+        return Cache::remember($cacheKey, Config::get('gatekeeper.cache.expiration_time', 60), function () {
             return $this->user->roles()->get()->toArray();
         });
     }
@@ -36,11 +37,11 @@ trait GatekeeperCacheing
 
         $permissions = $this->user->permissions->first()?->toArray() ?? [];
 
-        if (!config('gatekeeper.cache.enabled')) {
+        if (!Config::get('gatekeeper.cache.enabled')) {
             return $permissions;
         }
 
-        return Cache::remember($cacheKey, config('gatekeeper.cache.expiration_time', 60), function () use ($permissions) {
+        return Cache::remember($cacheKey, Config::get('gatekeeper.cache.expiration_time', 60), function () use ($permissions) {
             return $permissions;
         });
     }
@@ -63,7 +64,7 @@ trait GatekeeperCacheing
      */
     public function userModelCacheKey(): string
     {
-        foreach (config('gatekeeper.user_models') as $key => $model) {
+        foreach (Config::get('gatekeeper.user_models') as $key => $model) {
             if ($this->user instanceof $model) {
                 return $key;
             }

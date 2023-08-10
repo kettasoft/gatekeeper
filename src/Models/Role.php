@@ -3,6 +3,7 @@
 namespace Kettasoft\Gatekeeper\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Config;
 
 class Role extends Model
 {
@@ -26,7 +27,7 @@ class Role extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->table = config('gatekeeper.tables.roles', 'roles');
+        $this->table = Config::get('gatekeeper.tables.roles', 'roles');
     }
 
 }
