@@ -26,7 +26,7 @@ class RunMigraitonsCommand extends Command
     public function handle()
     {
         $this->call('migrate', [
-            '--path' => '\gatekeeper\database\migrations'
+            '--path' => 'vendor/kettasoft/gatekeeper/database/migrations'
         ]);
     }
 }
