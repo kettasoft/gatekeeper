@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Config;
 
 return new class extends Migration
 {
@@ -11,12 +12,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(config('gatekeeper.tables.permission_user'), function (Blueprint $table) {
-            $table->unsignedBigInteger(config('gatekeeper.foreign_keys.permission'));
+        Schema::create(Config::get('gatekeeper.tables.permission_user'), function (Blueprint $table) {
+            $table->unsignedBigInteger(Config::get('gatekeeper.foreign_keys.permission'));
             $table->morphs('user');
-            $table->boolean('status')->default(config('gatekeeper.tables.default_status'));
+            $table->boolean('status')->default(Config::get('gatekeeper.tables.default_status'));
 
-            $table->foreign(config('gatekeeper.foreign_keys.permission'))->references('id')->on(config('gatekeeper.tables.permissions'));
+            $table->foreign(Config::get('gatekeeper.foreign_keys.permission'))->references('id')->on(Config::get('gatekeeper.tables.permissions'));
         });
     }
 
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists(config('gatekeeper.tables.permission_user'));
+        Schema::dropIfExists(Config::get('gatekeeper.tables.permission_user'));
     }
 };

@@ -3,7 +3,7 @@
 namespace Kettasoft\Gatekeeper\Support;
 
 use InvalidArgumentException;
-use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 
 class Helper
 {
@@ -26,7 +26,7 @@ class Helper
 
         if (is_string($object)) {
             return call_user_func_array([
-                config("gatekeeper.models.{$type}"), 'where'
+                Config::get("gatekeeper.models.{$type}"), 'where'
             ], ['name', $object])->firstOrFail()->getKey();
         }
 

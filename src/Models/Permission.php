@@ -4,6 +4,7 @@ namespace Kettasoft\Gatekeeper\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Kettasoft\Gatekeeper\Services\ConvertPermissionArrayToJson;
+use Illuminate\Support\Facades\Config;
 
 class Permission extends Model
 {
@@ -33,7 +34,7 @@ class Permission extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->table = config('gatekeeper.tables.permissions.table_name', 'permissions');
+        $this->table = Config::get('gatekeeper.tables.permissions.table_name', 'permissions');
     }
 
     /**
