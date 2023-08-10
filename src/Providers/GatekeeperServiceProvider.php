@@ -7,6 +7,15 @@ use Kettasoft\Gatekeeper\Commands\RunMigraitonsCommand;
 
 class GatekeeperServiceProvider extends ServiceProvider
 {
+    /**
+     * The middlewares to be registered.
+     *
+     * @var array
+     */
+    protected array $middlewares = [
+        'role' => \Kettasoft\Gatekeeper\Middleware\Role::class,
+        'permission' => \Kettasoft\Gatekeeper\Middleware\Permission::class
+    ];
 
     /**
      * Register any application services.
@@ -24,6 +33,7 @@ class GatekeeperServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configure();
+        $this->registerMiddlewares();
         $this->commands(RunMigraitonsCommand::class);
     }
 
@@ -34,7 +44,35 @@ class GatekeeperServiceProvider extends ServiceProvider
      */
     protected function configure()
     {
-        $this->mergeConfigFrom(__DIR__.'/../../config/gatekeeper.php', 'gatekeeper');
+        $this->mergeConfigFrom(__DIR__ . '/../../config/gatekeeper.php', 'gatekeeper');
     }
 
+    /**
+     * Register the middlewares automatically.
+     *
+     * @return void
+     */
+    protected function registerMiddlewares()
+    {
+        if (!$this->app['config']->get('gatekeeper.middleware.register')) {
+            return;
+        }
+
+        $router = $this->app['router'];
+
+        switch (true) {
+            case method_exists($router, 'aliasMiddleware'):
+                $registerMethod = 'aliasMiddleware';
+                break;
+            case method_exists($router, 'middleware'):
+                $registerMethod = 'middleware';
+                break;
+            default:
+                return;
+        }
+
+        foreach ($this->middlewares as $key => $class) {
+            $router->$registerMethod($key, $class);
+        }
+    }
 }

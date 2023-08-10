@@ -1,0 +1,108 @@
+<?php
+
+namespace Kettasoft\Gatekeeper\Middleware;
+
+use Closure;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Redirect;
+use Kettasoft\Gatekeeper\Support\Helper;
+use Kettasoft\Gatekeeper\Contracts\GatekeeperInterface;
+
+abstract class Middleware
+{
+    protected $app;
+    /**
+     * Create a new middleware instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->app = new Application();
+    }
+
+    abstract public function handle(Request $request, Closure $next, string|array $permission);
+    
+    /**
+     * Check if the request has authorization to continue.
+     */
+    protected function authorization(
+        string $type,
+        string|array $rolesPermissions,
+        ?string $options
+    ): bool {
+        [
+            'require_all' => $requireAll,
+            'guard' => $guard,
+        ] = $this->getValuesFromParameters($options);
+        $method = $type == 'roles' ? 'hasRole' : 'hasPermission';
+        $rolesPermissions = Helper::standardize($rolesPermissions, true);
+
+        return ! Auth::guard($guard)->guest()
+            && Auth::guard($guard)->user()->$method($rolesPermissions, $requireAll);
+    }
+
+    /**
+     * The request is unauthorized, so it handles the aborting/redirecting.
+     */
+    protected function unauthorized(): mixed
+    {
+        $handling = Config::get('gatekeeper.middleware.handling');
+        $handler = Config::get("gatekeeper.middleware.handlers.{$handling}");
+
+        if ($handling == 'abort') {
+            $defaultMessage = 'User does not have any of the necessary access rights.';
+
+            return App::abort($handler['code'], $handler['message'] ?? $defaultMessage);
+        }
+
+        $redirect = Redirect::to($handler['url']);
+
+        if (! empty($handler['message']['content'])) {
+            $redirect->with($handler['message']['key'], $handler['message']['content']);
+        }
+
+        return $redirect;
+    }
+
+    /**
+     * Generate an array with the values of the parameters given to the middleware.
+     */
+    protected function getValuesFromParameters(?string $options): array
+    {
+        return [
+            'require_all' =>  Str::contains($options, 'require_all'),
+            'guard' =>  (
+                    Str::contains($options, 'guard:')
+                    ? $this->extractGuard($options)
+                    : Config::get('auth.defaults.guard')
+                ),
+        ];
+    }
+
+    /**
+     * Extract the guard type from the given string.
+     */
+    protected function extractGuard(string $string): string
+    {
+        $options = collect(explode('|', $string));
+
+        return $options
+            ->reject(fn ($option) => ! Str::contains($option, 'guard:'))
+            ->map(fn ($option) => Str::of($option)->explode(':')->get(1))
+            ->first();
+    }
+
+    /**
+     * Get the currently authenticated user or null.
+     */
+    protected function user(): GatekeeperInterface|null
+    {
+        return $this->app->auth->user();
+    }
+}

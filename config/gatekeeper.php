@@ -118,34 +118,83 @@ return [
     ],
 
     /*
+    |--------------------------------------------------------------------------
+    | Gatekeeper cache
+    |--------------------------------------------------------------------------
+    |
+    | Manage Gatekeeper cache configurations. It uses the driver defined in the
+    | config/cache.php file.
+    |
+    */
+    'cache' => [
+        /*
         |--------------------------------------------------------------------------
-        | Gatekeeper cache
+        | Use cache in the package
         |--------------------------------------------------------------------------
         |
-        | Manage Gatekeeper cache configurations. It uses the driver defined in the
-        | config/cache.php file.
+        | Defines if Gatekeeper will use Laravel's Cache to cache the roles and permissions.
+        | NOTE: Currently the database check does not use cache.
         |
         */
-        'cache' => [
-            /*
-            |--------------------------------------------------------------------------
-            | Use cache in the package
-            |--------------------------------------------------------------------------
-            |
-            | Defines if Gatekeeper will use Laravel's Cache to cache the roles and permissions.
-            | NOTE: Currently the database check does not use cache.
-            |
-            */
-            'enabled' => env('GATEKEEPER_ENABLE_CACHE', env('APP_ENV') === 'production'),
+        'enabled' => env('GATEKEEPER_ENABLE_CACHE', env('APP_ENV') === 'production'),
 
-            /*
-            |--------------------------------------------------------------------------
-            | Time to store in cache Gatekeeper's roles and permissions.
-            |--------------------------------------------------------------------------
-            |
-            | Determines the time in SECONDS to store Goverable's roles and permissions in the cache.
-            |
-            */
-            'expiration_time' => 60 * 60,
+        /*
+        |--------------------------------------------------------------------------
+        | Time to store in cache Gatekeeper's roles and permissions.
+        |--------------------------------------------------------------------------
+        |
+        | Determines the time in SECONDS to store Goverable's roles and permissions in the cache.
+        |
+        */
+        'expiration_time' => 60 * 60,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Gatekeeper Middleware
+    |--------------------------------------------------------------------------
+    |
+    | This configuration helps to customize the Gatekeeper middleware behavior.
+    |
+    */
+    'middleware' => [
+        /**
+         * Define if the Gatekeeper middleware are registered automatically in the service provider.
+         */
+        'register' => true,
+
+        /**
+         * Method to be called in the middleware return case.
+         * Available: abort|redirect.
+         */
+        'handling' => 'abort',
+
+        /**
+         * Handlers for the unauthorized method in the middlewares.
+         * The name of the handler must be the same as the handling.
+         */
+        'handlers' => [
+            /**
+             * Aborts the execution with a 403 code and allows you to provide the response text.
+             */
+            'abort' => [
+                'code' => 403,
+                'message' => 'User does not have any of the necessary access rights.',
+            ],
+
+            /**
+             * Redirects the user to the given url.
+             * If you want to flash a key to the session,
+             * you can do it by setting the key and the content of the message
+             * If the message content is empty it won't be added to the redirection.
+             */
+            'redirect' => [
+                'url' => '/home',
+                'message' => [
+                    'key' => 'error',
+                    'content' => '',
+                ],
+            ],
         ],
+    ],
 ];

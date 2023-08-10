@@ -5,6 +5,7 @@ namespace Gatekeeper\Tests;
 use Gatekeeper\Tests\Models\User;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Kettasoft\Gatekeeper\Providers\GatekeeperServiceProvider;
 
 abstract class TestCase extends Orchestra
@@ -28,6 +29,13 @@ abstract class TestCase extends Orchestra
         $this->artisan('migrate', [
             '--path' => realpath(__DIR__ . '/database/migrations'),
         ]);
+
+        $this->guessFactoryNamesUsing();
+    }
+
+    protected function guessFactoryNamesUsing()
+    {
+        return Factory::guessFactoryNamesUsing(fn ($name) => (string) '\Gatekeeper\Tests\Database\Factories\\'. (class_basename($name)) .'Factory');
     }
 
     protected function getPackageProviders($app)
