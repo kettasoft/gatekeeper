@@ -3,12 +3,14 @@
 namespace Gatekeeper\Tests\Models;
 
 use Kettasoft\Gatekeeper\Traits\Gatekeeper;
-use Illuminate\Database\Eloquent\Model;
 use Kettasoft\Gatekeeper\Contracts\GatekeeperInterface;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model implements GatekeeperInterface
+class User extends Authenticatable implements GatekeeperInterface, AuthenticatableContract
 {
-    use Gatekeeper;
+    use Gatekeeper, HasFactory;
 
     /**
      * The attributes that are mass assignable.

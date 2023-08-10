@@ -5,7 +5,8 @@
     "require-dev": {
         "laravel/framework": "^10",
         "pestphp/pest": "2.x-dev",
-        "orchestra/testbench": "8.x-dev"
+        "orchestra/testbench": "^8.0",
+        "mockery/mockery": "1.6.x-dev"
     },
     "license": "MIT",
     "autoload": {
@@ -15,7 +16,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Gatekeeper\\Tests\\": "tests/"
+            "Gatekeeper\\Tests\\": "tests/",
+            "Gatekeeper\\Tests\\Database\\Factories\\": "tests/database/factories/"
         }
     },
     "authors": [
