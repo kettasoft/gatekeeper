@@ -1,7 +1,7 @@
 # Gatekeeper
 This package provides a comprehensive system for managing roles and permissions in Laravel applications. It allows for easy creation and management of roles, assigning permissions to specific roles, and controlling access to different parts of the application based on a user's assigned roles and permissions.
 
-[![Total Downloads](https://img.shields.io/packagist/dt/kettasoft/gatekeeper?style=flat-square)](https://packagist.org/packages/spatie/laravel-server-monitor)
+[![Total Downloads](https://img.shields.io/packagist/dt/kettasoft/gatekeeper?style=flat-square)](https://packagist.org/packages/kettasoft/gatekeeper)
 
 ## Installation
 
