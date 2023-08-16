@@ -3,6 +3,7 @@
     "description": "A lightweight and powerful package for handling permissions and provisions in Laravel",
     "type": "library",
     "require-dev": {
+        "php": ">8.0",
         "laravel/framework": "^10",
         "pestphp/pest": "2.x-dev",
         "orchestra/testbench": "^8.0",
