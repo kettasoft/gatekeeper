@@ -32,6 +32,11 @@
             "pestphp/pest-plugin": true
         }
     },
+    "scripts": {
+        "test": [
+            "vendor/bin/pest --configuration=phpunit.xml"
+        ]
+    },
     "extra": {
         "laravel": {
             "providers": [
