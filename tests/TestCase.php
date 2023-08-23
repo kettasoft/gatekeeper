@@ -3,6 +3,7 @@
 namespace Gatekeeper\Tests;
 
 use Gatekeeper\Tests\Models\User;
+use Kettasoft\Gatekeeper\GatekeeperFacade;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -64,5 +65,12 @@ abstract class TestCase extends Orchestra
             'role' => 'Gatekeeper\Tests\Models\Role',
             'permission' => 'Gatekeeper\Tests\Models\Permission'
         ]);
+    }
+
+    protected function getPackageAliases($app)
+    {
+        return [
+            'Gatekeeper' => GatekeeperFacade::class,
+        ];
     }
 }

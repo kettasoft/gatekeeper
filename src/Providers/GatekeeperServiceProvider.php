@@ -4,6 +4,7 @@ namespace Kettasoft\Gatekeeper\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Kettasoft\Gatekeeper\Commands\RunMigraitonsCommand;
+use Kettasoft\Gatekeeper\Gatekeeper;
 
 class GatekeeperServiceProvider extends ServiceProvider
 {
@@ -34,6 +35,7 @@ class GatekeeperServiceProvider extends ServiceProvider
     {
         $this->configure();
         $this->registerMiddlewares();
+        $this->registerGatekeeper();
         $this->commands(RunMigraitonsCommand::class);
     }
 
@@ -74,5 +76,19 @@ class GatekeeperServiceProvider extends ServiceProvider
         foreach ($this->middlewares as $key => $class) {
             $router->$registerMethod($key, $class);
         }
+    }
+
+    /**
+     * Register the application bindings.
+     *
+     * @return void
+     */
+    protected function registerGatekeeper()
+    {
+        $this->app->bind('Gatekeeper', function ($app) {
+            return new Gatekeeper($app);
+        });
+
+        $this->app->alias('gatekeeper', Gatekeeper::class);
     }
 }
