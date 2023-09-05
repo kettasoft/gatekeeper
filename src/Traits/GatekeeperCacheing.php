@@ -35,7 +35,7 @@ trait GatekeeperCacheing
     {
         $cacheKey = 'gatekeeper_permissions_for_' . $this->userModelCacheKey() . '_' . $this->user->getKey();
 
-        $permissions = $this->user->permissions->first()?->toArray() ?? [];
+        $permissions = $this->user->permissions()->first()?->toArray() ?? [];
 
         if (!Config::get('gatekeeper.cache.enabled')) {
             return $permissions;
