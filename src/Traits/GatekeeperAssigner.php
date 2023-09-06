@@ -11,7 +11,7 @@ trait GatekeeperAssigner
      * Add direct permissions to the user.
      */
     public function givePermission(
-        array|Model $permission,
+        string|array $permission,
     ): static {
         return $this->gatekeeperUserAssginer()->currentUserGivePermission($permission);
     }
