@@ -51,10 +51,6 @@ return [
         'permissions' => 'permissions',
 
         'role_user' => 'role_user',
-
-        'permission_user' => 'permission_user',
-
-        'permission_role' => 'permission_role',
     ],
 
     /*
