@@ -30,17 +30,22 @@ class Assigner implements AssignerInterface
      */
     public function currentUserGivePermission(string|array $permission): GatekeeperInterface
     {
-        $permission = $this->setDefaultValueToPermission($permission);
+        $permissions = $this->setDefaultValueToPermissionKeys($permission);
 
-        if (!$this->user->permissions()->first()) {
-            $this->user->permissions()->create(['permissions' => $permission]);
+        $data = $this->user->permissions()->firstOr(function () use($permissions) {
+            $this->user->permissions()->create(['permissions' => $permissions]);
+            return $this->user;
+        });
+        
+        if ($data instanceof GatekeeperInterface) {
             return $this->user;
         }
 
-        $newPermissions = array_merge(Arr::get($this->userCachedPermissions(), 'permissions', []), $permission);
+        $newPermissions = array_merge($data->permissions, $permissions);
 
-        $this->user->permissions()->update(['permissions' => $newPermissions]);
-
+        if ($data->permissions !== $newPermissions) {
+            $this->user->permissions()->update(['permissions' => $newPermissions]);
+        }
         return $this->user;
     }
 
@@ -64,8 +69,16 @@ class Assigner implements AssignerInterface
         return $this->user;
     }
 
-    private function setDefaultValueToPermission(array $permissions, $default = true)
+    /**
+     * Add a default value to all elements of the array
+     *
+     * @param array $permissions
+     * @param boolean $default
+     * @return array
+     */
+    private function setDefaultValueToPermissionKeys(array|string $permissions, $default = true): array
     {
+        $permissions = is_array($permissions) ? $permissions : [$permissions];
         $result = [];
         foreach($permissions as $permission) {
             if (! is_string($permission)) return $permissions;
