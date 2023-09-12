@@ -14,9 +14,8 @@ return new class extends Migration
     {
         Schema::create(Config::get('gatekeeper.tables.role_user'), function (Blueprint $table) {
             $table->unsignedBigInteger(Config::get('gatekeeper.foreign_keys.role'));
-            $table->morphs('user');
-
-            $table->foreign(Config::get('gatekeeper.foreign_keys.role'))->references('id')->on(Config::get('gatekeeper.tables.roles'))->onDelete('cascade');
+            $table->morphs('clientable');
+            $table->boolean('status')->default(Config::get('gatekeeper.tables.default_status'));
         });
     }
 
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists(Config::get('gatekeeper.tables.role_user'));
+        Schema::dropIfExists(Config::get('gatekeeper.tables.permissions'));
     }
 };

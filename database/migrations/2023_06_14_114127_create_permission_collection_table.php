@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Config;
 
 return new class extends Migration
 {
@@ -11,10 +12,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('permission_user', function (Blueprint $table) {
-            $table->unsignedBigInteger('permission_id');
-            $table->morphs('user');
-            $table->boolean('status')->default(TRUE);
+        Schema::create('permission_collection', function (Blueprint $table) {
+            $table->id();
+            $table->string('value')->unique();
+            $table->boolean('default')->default(1);
+            $table->timestamps();
         });
     }
 
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('permission_user');
+        Schema::dropIfExists('permission_collection');
     }
 };

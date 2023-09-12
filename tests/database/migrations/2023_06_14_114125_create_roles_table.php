@@ -12,10 +12,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(Config::get('gatekeeper.tables.permissions'), function (Blueprint $table) {
+        Schema::create(Config::get('gatekeeper.tables.roles'), function (Blueprint $table) {
             $table->id();
-            $table->json('permissions')->nullable();
-            $table->morphs('clientable');
+            $table->string('name')->unique();
+            $table->string('display_name')->nullable();
+            $table->string('description')->nullable();
             $table->boolean('status')->default(Config::get('gatekeeper.tables.default_status'));
             $table->timestamps();
         });
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists(Config::get('gatekeeper.tables.permissions'));
+        Schema::dropIfExists(Config::get('governable.tables.roles'));
     }
 };
