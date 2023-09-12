@@ -38,7 +38,7 @@ php artisan config:clear
 
 IMPORTANT: Before running the command go to your config/gatekeeper.php file and change the values according to your needs.
 ```bash
-php artisan gatekeeper:init
+php artisan gatekeeper:migrate
 ```
 ### This command will generate the migrations, create the Role and Permission models
 
